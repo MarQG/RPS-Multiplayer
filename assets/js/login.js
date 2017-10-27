@@ -8,6 +8,8 @@ var Login = (function(){
 	var createModalButton;
 	var userLoggedIn = false;
 
+	var curUser;
+
 
 
 
@@ -18,9 +20,9 @@ var Login = (function(){
 		var alertWin = $("#alert-login");
 		if(valid){
 			firebase.auth().signInWithEmailAndPassword(email, password).then(function(user){
-				console.log("signed in" + user);
 				alertWin.empty();
 				$("#login-modal").modal("toggle");
+				$("#alert-main").html('<p class="alert alert-success">Login Successful!</p>');
 			}, function(err){
 				alertWin.html("<p class='alert alert-danger'>" + err + "</p>");
 			})
@@ -35,12 +37,15 @@ var Login = (function(){
 		var password = $("#create-password-input").val();
 		var valid = Login.validateInput([email, password, username]);
 		var alertWin = $("#alert-create");
+		$("#alert-main").html('<p class="alert alert-success">Account Successfully Created. Please Login</p>');
 		if(valid){
 			firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user){
-				console.log("User created and signed in Success" + user);
-				user.updateProfile({displayName: username});
+				//console.log(user);
+				curUser = user;
+				curUser.updateProfile({displayName: username});
 				alertWin.empty();
-				$("#create-account-modal").modal("toggle");
+				logoutUser();
+				
 			},function(err){
 				alertWin.html("<p class='alert alert-danger'>" + err + "</p>");
 			});
@@ -61,22 +66,26 @@ var Login = (function(){
 
 	return{
 		init: function(){
+			//userLoggedIn = false;
 
 			firebase.auth().onAuthStateChanged(function(user){
+				//console.log(user);
 				if(user){
 					curUser = firebase.auth().currentUser;
 					$("#current-user").text(curUser.displayName);
-					userLoggedIn = true;
 					$("#login-button").hide();
 					$("#logout-button").show();
 					$("#logout-button").on("click", logoutUser);
+					userLoggedIn = true;
+					Chat.onUserLogin();
 				} else {
 					if(userLoggedIn){
 						userLoggedIn = false;
 						window.location.reload();
 					}
 				}
-			})
+
+			});
 			// Login Button
 			loginModalButton = $("#login-email-button");
 
@@ -101,7 +110,6 @@ var Login = (function(){
 		validateInput: function(inputs){
 			var validInput = true;
 			inputs.forEach(function(input){
-				console.log(input);
 				if(input === ""){
 					validInput = false;
 					return validInput;

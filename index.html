@@ -17,9 +17,9 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="assets/js/game.js"></script>
-	<script type="text/javascript" src="assets/js/login.js"></script>
 	<script type="text/javascript" src="assets/js/config.js"></script>
 	<script type="text/javascript" src="assets/js/chat.js"></script>
+	<script type="text/javascript" src="assets/js/login.js"></script>
 	<script type="text/javascript" src="assets/js/main.js"></script>
 </head>
 <body>
@@ -38,6 +38,9 @@
 	</nav>
 
 	<div class="container">
+		<div id="alert-main">
+			
+		</div>
 		<h1>Welcome <span id="current-user"></span></h1>
 		<div class="row">
 			<!-- Main Game Windows -->
@@ -79,14 +82,14 @@
 						<h3>Chat</h3>
 					</div>
 					<div class="panel-body">
-						<ul id="chat-window"> 
+						<ul class="list-unstyled" id="chat-window"> 
 							
 						</ul>
 						<form class="form-inline"> 
 							<div class="form-group">
-								<input type="text" name="chat" id="chat-input" placeholder="Your message here...">
+								<input type="text" name="chat" id="chat-input" disabled placeholder="Your message here...">
 							</div>
-							<button type="submit"  class="btn btn-primary" id="chat-send">Send</button>
+							<button type="submit"  class="btn btn-primary" disabled id="chat-send">Send</button>
 						</form>
 					</div>
 				</div>
@@ -159,7 +162,7 @@
 	        </form>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" id="create-account-button" data-target="create-account-modal" >Create Account</button>
+	        <button type="button" class="btn btn-primary" id="create-account-button" data-dismiss="modal">Create Account</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
