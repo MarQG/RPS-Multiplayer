@@ -56,7 +56,7 @@ var Game = (function(){
 
 			switch(curGame.state){
 				case STATE.GAME_JOINED_STATE:
-					console.log("Joined");
+					playerJoined(currentGameRef, curGame);
 					break;
 				case STATE.GAME_PLAYER_ONE_STATE:
 					console.log("Player One Choice Made");
@@ -151,6 +151,17 @@ var Game = (function(){
 					console.log("Game error: " + err);
 				}
 			});
+	}
+
+	function playerJoined(curGameRef, curGameKey){
+		if(curGameKey.creator.cud === firebase.auth().currentUser.uid){
+			console.log("Game has been joined by: " + curGameKey.joiner.jName);
+			window.setTimeout(function(){
+				curGameRef.update({
+					state: STATE.GAME_PLAYER_ONE_STATE
+				}, 1000);
+			});
+		}		
 	}
 
 
