@@ -73,7 +73,7 @@ var Game = (function(){
 	}
 
 	function leaveGame(){
-		var curUser = firebase.auth().currentUser;
+		
 
 		console.log("Game creator left the room");
 		gameRef.orderByChild('gameCreator').equalTo(curUser.uid).
@@ -102,9 +102,9 @@ var Game = (function(){
 				var joinBtn = $("<button>");
 				joinBtn.addClass("btn btn-primary join");
 				joinBtn.text("Join " + availableGames.creator.cName);
-				joinBtn.id = availableGames.key;
+				joinBtn.attr("id", availableGames.key); 
 				joinBtn.on("click", function(){
-					console.log("You joined a game!");
+					joinGame(availableGames.key);
 				})
 				$("#join-window").append(joinBtn);	
 			}
@@ -123,6 +123,10 @@ var Game = (function(){
 		}, function(err){
 			console.log("Game Error: " + err);
 		})
+	}
+
+	function joinGame(key){
+			console.log("Attempting to join a game", key);
 	}
 
 
@@ -145,7 +149,7 @@ var Game = (function(){
 			});
 
 			$("#leave-game").on("click", function(){
-				leaveGame();
+				//leaveGame();
 				$("#join-window").show();
 			});
 		}
