@@ -24,5 +24,6 @@ window.onload = function(){
 	
 	Login.init();
 	Chat.init();
+	Game.init();
 
 };

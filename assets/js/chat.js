@@ -9,6 +9,7 @@ var Chat = (function(){
 	var chatInput;
 	var chatSendButton;
 	var ref;
+	
 	function sendChat(){
 		chatInput.prop("disabled", true);
 		chatSendButton.prop("disabled", true);
@@ -24,11 +25,6 @@ var Chat = (function(){
 
 		chatInput.prop("disabled", false);
 		chatSendButton.prop("disabled", false);
-		// ref.on("child_added", function(snapshot){
-		// 	console.log(snapshot);
-		// }, function(err){
-		// 	console.log("Error occured: " + err);
-		// });
 	}
 
 	function loadChat(){
@@ -36,12 +32,12 @@ var Chat = (function(){
 				var curUser = firebase.auth().currentUser;
 				var li = $("<li>");
 				if(curUser != null){
-					console.log("User is present")
+					//console.log("User is present")
 					console.log
 					if(curUser.displayName === snapshot.val().username){
 						li.addClass("user-message");
 					} else {
-						console.log("User is not present");
+						//console.log("User is not present");
 						li.addClass("default-message");
 					}
 				} else {
