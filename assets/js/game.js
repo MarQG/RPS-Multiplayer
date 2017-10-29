@@ -102,9 +102,9 @@ var Game = (function(){
 				var joinBtn = $("<button>");
 				joinBtn.addClass("btn btn-primary join");
 				joinBtn.text("Join " + availableGames.creator.cName);
-				joinBtn.attr("id", availableGames.key); 
+				joinBtn.attr("id", snapshot.key); 
 				joinBtn.on("click", function(){
-					joinGame(availableGames.key);
+					joinGame(snapshot.key);
 				})
 				$("#join-window").append(joinBtn);	
 			}
@@ -127,6 +127,30 @@ var Game = (function(){
 
 	function joinGame(key){
 			console.log("Attempting to join a game", key);
+			var joiningPlayer = firebase.auth().currentUser;
+			gameRef.child(key).transaction(function(game){
+				if(!game.joiner){
+					game.state = STATE.GAME_JOINED_STATE;
+					game.joiner = {
+						jid: joiningPlayer.uid,
+						jName: joiningPlayer.displayName
+					}
+				}
+
+				return game;
+			}, function(error, commited, snapshot){
+				if(commited){
+					if(snapshot.val().joiner.jid === joiningPlayer.uid){
+						$("#create-game").hide();
+						$("#" + key).remove();
+						gameWatcher(key);
+					} else {
+						console.log("Game already joined. Please Choose another");
+					}
+				}else {
+					console.log("Game error: " + err);
+				}
+			});
 	}
 
 
