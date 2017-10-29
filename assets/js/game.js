@@ -55,9 +55,9 @@ var Game = (function(){
 			if(!curGame){
 				console.log("Game ended play again!");
 				$("#create-game").show();
+				return;
 				
 			}
-
 			switch(curGame.state){
 				case STATE.GAME_JOINED_STATE:
 					playerJoined(currentGameRef, curGame);
@@ -77,6 +77,8 @@ var Game = (function(){
 					break;
 
 			}
+
+			console.log("game watcher running...");
 		}, function(err){
 			console.log("Game Watcher Error: " + err);
 		});
@@ -106,7 +108,7 @@ var Game = (function(){
 		});
 
 		gameRef.on("child_removed", function(snapshot){
-
+			//console.log(snapshot.key);
 			var joinBtn = $("#" + snapshot.key);
 
 			if(joinBtn){
@@ -136,6 +138,7 @@ var Game = (function(){
 					if(snapshot.val().joiner.jid === joiningPlayer.uid){
 						$("#create-game").hide();
 						$("#" + key).remove();
+						$("#game-results").html("<p>Joined " + snapshot.val().creator.cName  +"'s game.</p>");
 						gameWatcher(key);
 					} else {
 						console.log("Game already joined. Please Choose another");
@@ -176,6 +179,7 @@ var Game = (function(){
 					"creator/choice": $(this).attr("data-choice")
 				});
 				$("#player-one").empty();
+				$("#game-results").html("<p>" + curGameKey.creator.cName  +"'s choice made.</p>");
 			});
 		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.jid === firebase.auth().currentUser.uid){
 			$.each(RPS, function(index, value){
@@ -195,6 +199,7 @@ var Game = (function(){
 					"joiner/choice": $(this).attr("data-choice")
 				});
 				$("#player-two").empty();
+				$("#game-results").html("<p>" + curGameKey.joiner.jName  +"'s choice made.</p>");
 			});
 		}
 	}
@@ -242,19 +247,21 @@ var Game = (function(){
 	}
 
 	function showWinner(curGameRef, curGameKey){
-		
+		console.log("show winner ran");
 		if(curGameRef != undefined){
+			console.log("print winner");
 			$("#game-results").html(
 			"<p>" + curGameKey.creator.cName + " picked " + curGameKey.creator.choice + "</p>"+
 			"<p>" + curGameKey.joiner.jName + " picked " + curGameKey.joiner.choice + "</p>"+
 			"<p>The Winner is " + curGameKey.winner + "</p>");
 
-			console.log(curGameRef);
+			//console.log(curGameRef);
+			$("#create-game").show();
 		}	
 	
-		setTimeout(function(){
-			window.location.reload();
-		}, 500);
+		// setTimeout(function(){
+		// 	window.location.reload();
+		// }, 500);
 	}
 
 
