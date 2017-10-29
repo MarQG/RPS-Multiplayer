@@ -11,6 +11,8 @@ var Game = (function(){
 
 	var gameRef;
 
+	const RPS = ["R", "P", "S"];
+
 	const STATE = {
 		GAME_OPEN_STATE: "OPEN",
 		GAME_JOINED_STATE: "JOINED",
@@ -36,10 +38,10 @@ var Game = (function(){
 		gameWatcher(key.key);
 		console.log("Game created");
 
-		gameCreated = true;
+		//gameCreated = true;
 
 		$("#create-game").hide();
-		$("#leave-game").show();
+		//$("#leave-game").show();
 	}
 
 	function gameWatcher(key){
@@ -57,6 +59,7 @@ var Game = (function(){
 			switch(curGame.state){
 				case STATE.GAME_JOINED_STATE:
 					playerJoined(currentGameRef, curGame);
+					displayChoices(currentGameRef, curGame);
 					break;
 				case STATE.GAME_PLAYER_ONE_STATE:
 					console.log("Player One Choice Made");
@@ -82,8 +85,6 @@ var Game = (function(){
 				gameRef.child(childSnapshot.key).remove();
 			});
 		});	
-		
-		gameCreated = false;
 
 		$("#leave-game").hide();
 		$("#create-game").show();
@@ -155,13 +156,37 @@ var Game = (function(){
 
 	function playerJoined(curGameRef, curGameKey){
 		if(curGameKey.creator.cud === firebase.auth().currentUser.uid){
-			console.log("Game has been joined by: " + curGameKey.joiner.jName);
-			window.setTimeout(function(){
-				curGameRef.update({
-					state: STATE.GAME_PLAYER_ONE_STATE
-				}, 1000);
-			});
+			console.log("Game has been joined by: " + curGameKey.joiner.jName);	
 		}		
+	}
+
+	function displayChoices(curGameRef, curGameKey){
+		console.log(curGameRef, curGameKey);
+		if(curGameKey.state === STATE.GAME_JOINED_STATE && curGameKey.creator.cid === firebase.auth().currentUser.uid){
+
+			$.each(RPS, function(index, value){
+				var rpsBtn = $("<button>");
+				rpsBtn.addClass("btn btn-primary p1");
+				rpsBtn.attr({
+					"id": curGameRef.key,
+					"data-choice": RPS[index]
+				});
+				rpsBtn.text(RPS[index]);
+				$("#player-one").append(rpsBtn);
+
+
+			});
+
+			$(".p1").on("click", function(){
+				curGameRef.update({
+					state: STATE.GAME_PLAYER_ONE_STATE,
+					"creator/choice": $(this).attr("data-choice")
+				});
+				$("#player-one").empty();
+			});
+		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.id === firebase.auth().currentUser.uid){
+			console.log("Player two make a choice!");
+		}
 	}
 
 
