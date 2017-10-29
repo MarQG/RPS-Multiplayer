@@ -252,8 +252,9 @@ var Game = (function(){
 			console.log(curGameRef);
 		}	
 	
-		
-		window.location.reload;
+		setTimeout(function(){
+			window.location.reload();
+		}, 500);
 	}
 
 

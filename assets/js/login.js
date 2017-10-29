@@ -45,7 +45,7 @@ var Login = (function(){
 				curUser.updateProfile({displayName: username});
 				alertWin.empty();
 				logoutUser();
-				
+				windows.location.reload();
 			},function(err){
 				alertWin.html("<p class='alert alert-danger'>" + err + "</p>");
 			});
