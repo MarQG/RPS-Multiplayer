@@ -78,7 +78,7 @@ var Game = (function(){
 
 			}
 
-			console.log("game watcher running...");
+			//console.log("game watcher running...");
 		}, function(err){
 			console.log("Game Watcher Error: " + err);
 		});
@@ -247,7 +247,7 @@ var Game = (function(){
 	}
 
 	function showWinner(curGameRef, curGameKey){
-		console.log("show winner ran");
+		//console.log("show winner ran");
 		if(curGameRef != undefined){
 			console.log("print winner");
 			$("#game-results").html(
@@ -255,7 +255,7 @@ var Game = (function(){
 			"<p>" + curGameKey.joiner.jName + " picked " + curGameKey.joiner.choice + "</p>"+
 			"<p>The Winner is " + curGameKey.winner + "</p>");
 
-			//console.log(curGameRef);
+			curGameRef.remove();
 			$("#create-game").show();
 		}	
 	
