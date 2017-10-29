@@ -54,6 +54,7 @@ var Game = (function(){
 			if(!curGame){
 				console.log("Game ended play again!");
 				$("#create-game").show();
+				return;
 			}
 
 			switch(curGame.state){
@@ -63,15 +64,20 @@ var Game = (function(){
 					break;
 				case STATE.GAME_PLAYER_ONE_STATE:
 					console.log("Player One Choice Made");
+					displayChoices(currentGameRef, curGame);
 					break;
 				case STATE.GAME_PLAYER_TWO_STATE:
 					console.log("Player Two Choice Made");
+					checkWinner(currentGameRef, curGame);
 					break;
 				case STATE.GAME_COMPLETED_STATE:
 					console.log("Game Completed");
+					showWinner(currentGameRef, curGame);
 					break;
 
 			}
+		}, function(err){
+			console.log("Game Watcher Error: " + err);
 		})
 	}
 
@@ -184,9 +190,77 @@ var Game = (function(){
 				});
 				$("#player-one").empty();
 			});
-		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.id === firebase.auth().currentUser.uid){
-			console.log("Player two make a choice!");
+		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.jid === firebase.auth().currentUser.uid){
+			$.each(RPS, function(index, value){
+				var rpsBtn = $("<button>");
+				rpsBtn.addClass("btn btn-primary p2");
+				rpsBtn.attr({
+					"id": curGameRef.key,
+					"data-choice": RPS[index]
+				});
+				rpsBtn.text(RPS[index]);
+				$("#player-two").append(rpsBtn);
+			});
+
+			$(".p2").on("click", function(){
+				curGameRef.update({
+					state: STATE.GAME_PLAYER_TWO_STATE,
+					"joiner/choice": $(this).attr("data-choice")
+				});
+				$("#player-two").empty();
+			});
 		}
+	}
+
+	function checkWinner(curGameRef, curGameKey){
+
+		if(curGameKey.creator.choice === curGameKey.joiner.choice){
+			curGameRef.update({
+				winner: "Draw",
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		} else if( curGameKey.creator.choice === RPS[0] && curGameKey.joiner.choice === RPS[2]){
+			curGameRef.update({
+				winner: curGameKey.creator.cName,
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		} else if( curGameKey.creator.choice === RPS[0] && curGameKey.joiner.choice === RPS[1]){
+			curGameRef.update({
+				winner: curGameKey.joiner.jName,
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		} else if( curGameKey.creator.choice === RPS[1] && curGameKey.joiner.choice === RPS[0]){
+			curGameRef.update({
+				winner: curGameKey.creator.cName,
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		} else if( curGameKey.creator.choice === RPS[1] && curGameKey.joiner.choice === RPS[2]){
+			curGameRef.update({
+				winner: curGameKey.joiner.jName,
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		} else if( curGameKey.creator.choice === RPS[2] && curGameKey.joiner.choice === RPS[1]){
+			curGameRef.update({
+				winner: curGameKey.creator.cName,
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		} else if( curGameKey.creator.choice === RPS[2] && curGameKey.joiner.choice === RPS[0]){
+			curGameRef.update({
+				winner: curGameKey.joiner.jName,
+				state: STATE.GAME_COMPLETED_STATE
+			});
+		}
+
+
+	}
+
+	function showWinner(curGameRef, curGameKey){
+		$("#game-results").html(
+			"<p>" + curGameKey.creator.cName + " picked " + curGameKey.creator.choice + "</p>"+
+			"<p>" + curGameKey.joiner.jName + " picked " + curGameKey.joiner.choice + "</p>"+
+			"<p>The Winner is " + curGameKey.winner + "</p>");
+
+		curGameRef.remove();
 	}
 
 
