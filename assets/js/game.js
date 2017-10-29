@@ -179,7 +179,7 @@ var Game = (function(){
 					"creator/choice": $(this).attr("data-choice")
 				});
 				$("#player-one").empty();
-				$("#game-results").html("<p>" + curGameKey.creator.cName  +"'s choice made.</p>");
+				//$("#game-results").html("<p>" + curGameKey.creator.cName  +"'s choice made.</p>");
 			});
 		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.jid === firebase.auth().currentUser.uid){
 			$.each(RPS, function(index, value){
@@ -199,7 +199,7 @@ var Game = (function(){
 					"joiner/choice": $(this).attr("data-choice")
 				});
 				$("#player-two").empty();
-				$("#game-results").html("<p>" + curGameKey.joiner.jName  +"'s choice made.</p>");
+				//$("#game-results").html("<p>" + curGameKey.joiner.jName  +"'s choice made.</p>");
 			});
 		}
 	}
