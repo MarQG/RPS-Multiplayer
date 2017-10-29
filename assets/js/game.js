@@ -36,7 +36,7 @@ var Game = (function(){
 		key.onDisconnect().remove();
 
 		gameWatcher(key.key);
-		console.log("Game created");
+		//console.log("Game created");
 
 		$("#game-results").html(
 			"<p>Game Created. Waiting for someone to join...</p>");
@@ -50,12 +50,12 @@ var Game = (function(){
 		currentGameRef.on("value", function(snapshot){
 
 			var curGame = snapshot.val();
-			console.log("Game Updated", curGame);
+			//console.log("Game Updated", curGame);
 
 			if(!curGame){
 				console.log("Game ended play again!");
 				$("#create-game").show();
-				return;
+				
 			}
 
 			switch(curGame.state){
@@ -64,22 +64,22 @@ var Game = (function(){
 					displayChoices(currentGameRef, curGame);
 					break;
 				case STATE.GAME_PLAYER_ONE_STATE:
-					console.log("Player One Choice Made");
+					//console.log("Player One Choice Made");
 					displayChoices(currentGameRef, curGame);
 					break;
 				case STATE.GAME_PLAYER_TWO_STATE:
-					console.log("Player Two Choice Made");
+					//console.log("Player Two Choice Made");
 					checkWinner(currentGameRef, curGame);
 					break;
 				case STATE.GAME_COMPLETED_STATE:
-					console.log("Game Completed");
+					//console.log("Game Completed");
 					showWinner(currentGameRef, curGame);
 					break;
 
 			}
 		}, function(err){
 			console.log("Game Watcher Error: " + err);
-		})
+		});
 	}
 
 	function joinGameListener(){
@@ -89,7 +89,7 @@ var Game = (function(){
 		joinList.on("child_added", function(snapshot){
 
 			var availableGames = snapshot.val();
-			console.log("Game Added", availableGames);
+			//console.log("Game Added", availableGames);
 
 			if(availableGames.creator.cid != firebase.auth().currentUser.uid){
 				var joinBtn = $("<button>");
@@ -119,7 +119,7 @@ var Game = (function(){
 	}
 
 	function joinGame(key){
-			console.log("Attempting to join a game", key);
+			//console.log("Attempting to join a game", key);
 			var joiningPlayer = firebase.auth().currentUser;
 			gameRef.child(key).transaction(function(game){
 				if(!game.joiner){
@@ -136,7 +136,6 @@ var Game = (function(){
 					if(snapshot.val().joiner.jid === joiningPlayer.uid){
 						$("#create-game").hide();
 						$("#" + key).remove();
-						$("#game-results").html("<p>" + snapshot.val().joiner.jName + " joined " + snapshot.val().creator.cName + "'s game.</p>");
 						gameWatcher(key);
 					} else {
 						console.log("Game already joined. Please Choose another");
@@ -148,13 +147,14 @@ var Game = (function(){
 	}
 
 	function playerJoined(curGameRef, curGameKey){
-		if(curGameKey.creator.cud === firebase.auth().currentUser.uid){
-			console.log("Game has been joined by: " + curGameKey.joiner.jName);	
+		if(curGameKey.creator.cid === firebase.auth().currentUser.uid){
+			$("#game-results").html("<p>Game has been joined by: " + curGameKey.joiner.jName +"</p>");
+			//console.log("Player joined:");
 		}		
 	}
 
 	function displayChoices(curGameRef, curGameKey){
-		console.log(curGameRef, curGameKey);
+		//console.log(curGameRef, curGameKey);
 		if(curGameKey.state === STATE.GAME_JOINED_STATE && curGameKey.creator.cid === firebase.auth().currentUser.uid){
 
 			$.each(RPS, function(index, value){
@@ -242,12 +242,17 @@ var Game = (function(){
 	}
 
 	function showWinner(curGameRef, curGameKey){
-		$("#game-results").html(
+		
+		if(curGameRef != undefined){
+			$("#game-results").html(
 			"<p>" + curGameKey.creator.cName + " picked " + curGameKey.creator.choice + "</p>"+
 			"<p>" + curGameKey.joiner.jName + " picked " + curGameKey.joiner.choice + "</p>"+
 			"<p>The Winner is " + curGameKey.winner + "</p>");
 
-		curGameRef.remove();
+			console.log(curGameRef);
+		}	
+	
+		
 		window.location.reload;
 	}
 
