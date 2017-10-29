@@ -38,7 +38,8 @@ var Game = (function(){
 		gameWatcher(key.key);
 		console.log("Game created");
 
-		//gameCreated = true;
+		$("#game-results").html(
+			"<p>Game Created. Waiting for someone to join...</p>");
 
 		$("#create-game").hide();
 		//$("#leave-game").show();
@@ -79,21 +80,6 @@ var Game = (function(){
 		}, function(err){
 			console.log("Game Watcher Error: " + err);
 		})
-	}
-
-	function leaveGame(){
-		
-
-		console.log("Game creator left the room");
-		gameRef.orderByChild('gameCreator').equalTo(curUser.uid).
-		once("value").then(function(snapshot){
-			snapshot.forEach(function(childSnapshot){
-				gameRef.child(childSnapshot.key).remove();
-			});
-		});	
-
-		$("#leave-game").hide();
-		$("#create-game").show();
 	}
 
 	function joinGameListener(){
@@ -150,6 +136,7 @@ var Game = (function(){
 					if(snapshot.val().joiner.jid === joiningPlayer.uid){
 						$("#create-game").hide();
 						$("#" + key).remove();
+						$("#game-results").html("<p>" + snapshot.val().joiner.jName + " joined " + snapshot.val().creator.cName + "'s game.</p>");
 						gameWatcher(key);
 					} else {
 						console.log("Game already joined. Please Choose another");
@@ -261,6 +248,7 @@ var Game = (function(){
 			"<p>The Winner is " + curGameKey.winner + "</p>");
 
 		curGameRef.remove();
+		window.location.reload;
 	}
 
 
@@ -275,17 +263,11 @@ var Game = (function(){
 			
 			joinGameListener();
 
-
-
 			$("#create-game").on("click", function(){
 				createGame();
 				$("#join-window").hide();
 			});
 
-			$("#leave-game").on("click", function(){
-				//leaveGame();
-				$("#join-window").show();
-			});
 		}
 	}
 })();
