@@ -55,6 +55,12 @@ var Login = (function(){
 	}
 
 	function logoutUser(){
+		var curUser = firebase.auth().currentUser;
+		var message = curUser.displayName + " logged out.";
+		firebase.database().ref("/chat").push({
+			username: "system",
+			message: message
+		});
 		firebase.auth().signOut().then(function(){
 			console.log("Signed Out");
 			$("#login-button").show();
@@ -79,7 +85,7 @@ var Login = (function(){
 					userLoggedIn = true;
 					Chat.onUserLogin();
 					Game.onUserLogin();
-					
+
 				} else {
 					if(userLoggedIn){
 						userLoggedIn = false;
