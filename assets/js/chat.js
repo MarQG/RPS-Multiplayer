@@ -90,7 +90,7 @@ var Chat = (function(){
 			chatSendButton.prop("disabled", false);
 			loadChat();
 			//Disabled until reload work around can be found.
-			//announceChat();
+			announceChat();
 
 		}
 	}

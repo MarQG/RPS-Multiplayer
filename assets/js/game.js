@@ -282,16 +282,10 @@ var Game = (function(){
 			curGameRef.remove();
 			//console.log(curGameRef);
 			$("#create-game").show();
+			$("#join-window").show();
 
-			setTimeout(function(){
-				window.location.reload();
-
-			}, 5000);
 		}	
 	
-		// setTimeout(function(){
-		// 	window.location.reload();
-		// }, 500);
 	}
 
 

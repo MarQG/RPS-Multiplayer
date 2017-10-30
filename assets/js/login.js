@@ -56,13 +56,12 @@ var Login = (function(){
 	}
 
 	function logoutUser(){
-		// Disabled Until reload work around can be found.
-		// var curUser = firebase.auth().currentUser;
-		// var message = curUser.displayName + " logged out.";
-		// firebase.database().ref("/chat").push({
-		// 	username: "system",
-		// 	message: message
-		// });
+		var curUser = firebase.auth().currentUser;
+		var message = curUser.displayName + " logged out.";
+		firebase.database().ref("/chat").push({
+			username: "system",
+			message: message
+		});
 		firebase.auth().signOut().then(function(){
 			console.log("Signed Out");
 			$("#login-button").show();
