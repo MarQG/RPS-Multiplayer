@@ -89,7 +89,8 @@ var Chat = (function(){
 			chatInput.prop("disabled", false);
 			chatSendButton.prop("disabled", false);
 			loadChat();
-			announceChat();
+			//Disabled until reload work around can be found.
+			//announceChat();
 
 		}
 	}

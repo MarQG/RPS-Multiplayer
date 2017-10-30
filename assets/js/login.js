@@ -37,7 +37,7 @@ var Login = (function(){
 		var password = $("#create-password-input").val();
 		var valid = Login.validateInput([email, password, username]);
 		var alertWin = $("#alert-create");
-		$("#alert-main").html('<p class="alert alert-success">Account Successfully Created. Please Login</p>');
+		
 		if(valid){
 			firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user){
 				//console.log(user);
@@ -46,6 +46,7 @@ var Login = (function(){
 				alertWin.empty();
 				logoutUser();
 				windows.location.reload();
+				$("#alert-main").html('<p class="alert alert-success">Account Successfully Created. Please Login</p>');
 			},function(err){
 				alertWin.html("<p class='alert alert-danger'>" + err + "</p>");
 			});
@@ -55,12 +56,13 @@ var Login = (function(){
 	}
 
 	function logoutUser(){
-		var curUser = firebase.auth().currentUser;
-		var message = curUser.displayName + " logged out.";
-		firebase.database().ref("/chat").push({
-			username: "system",
-			message: message
-		});
+		// Disabled Until reload work around can be found.
+		// var curUser = firebase.auth().currentUser;
+		// var message = curUser.displayName + " logged out.";
+		// firebase.database().ref("/chat").push({
+		// 	username: "system",
+		// 	message: message
+		// });
 		firebase.auth().signOut().then(function(){
 			console.log("Signed Out");
 			$("#login-button").show();
