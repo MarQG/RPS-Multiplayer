@@ -284,7 +284,7 @@ var Game = (function(){
 			setTimeout(function(){
 				window.location.reload();
 
-			}, 2500);
+			}, 5000);
 		}	
 	
 		// setTimeout(function(){
