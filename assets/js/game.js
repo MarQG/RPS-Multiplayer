@@ -138,7 +138,7 @@ var Game = (function(){
 					if(snapshot.val().joiner.jid === joiningPlayer.uid){
 						$("#create-game").hide();
 						$("#" + key).remove();
-						$("#game-results").html("<p>Joined " + snapshot.val().creator.cName  +"'s game.</p>");
+						$("#game-results").html("<p>Joined " + snapshot.val().creator.cName  +"'s game.</p><p>Waiting for " + snapshot.val().creator.cName +" to make a choice...</p>");
 						gameWatcher(key);
 					} else {
 						console.log("Game already joined. Please Choose another");
@@ -188,10 +188,12 @@ var Game = (function(){
 					state: STATE.GAME_PLAYER_ONE_STATE,
 					"creator/choice": $(this).attr("data-choice")
 				});
+				$("#game-results").html("<p>Choice made.</p><p>Waiting on " + curGameKey.joiner.jName + " to make a choice...</p>");
 				$("#player-one").empty();
 				//$("#game-results").html("<p>" + curGameKey.creator.cName  +"'s choice made.</p>");
 			});
 		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.jid === firebase.auth().currentUser.uid){
+			$("#game-results").html("<p>" + curGameKey.creator.cName + " choice made.</p>");
 			$("#player-two").append("<p>Choose your knight:</p>");
 			$.each(RPS, function(index, value){
 				var rpsBtn = $("<button>");
