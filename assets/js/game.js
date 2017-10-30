@@ -159,15 +159,25 @@ var Game = (function(){
 	function displayChoices(curGameRef, curGameKey){
 		//console.log(curGameRef, curGameKey);
 		if(curGameKey.state === STATE.GAME_JOINED_STATE && curGameKey.creator.cid === firebase.auth().currentUser.uid){
-
+			$("#player-one").append("<p>Choose your knight:</p>");
 			$.each(RPS, function(index, value){
 				var rpsBtn = $("<button>");
+				var img = $("<img>");
 				rpsBtn.addClass("btn btn-primary p1");
+				if(RPS[index] === "P"){
+					img.addClass("selection-image paper");
+				}
+				if(RPS[index] === "R"){
+					img.addClass("selection-image rock");
+				}
+				if(RPS[index] === "S"){
+					img.addClass("selection-image scissor");
+				}
 				rpsBtn.attr({
 					"id": curGameRef.key,
 					"data-choice": RPS[index]
 				});
-				rpsBtn.text(RPS[index]);
+				rpsBtn.html(img);
 				$("#player-one").append(rpsBtn);
 
 
@@ -182,14 +192,25 @@ var Game = (function(){
 				//$("#game-results").html("<p>" + curGameKey.creator.cName  +"'s choice made.</p>");
 			});
 		} else if(curGameKey.state === STATE.GAME_PLAYER_ONE_STATE && curGameKey.joiner.jid === firebase.auth().currentUser.uid){
+			$("#player-two").append("<p>Choose your knight:</p>");
 			$.each(RPS, function(index, value){
 				var rpsBtn = $("<button>");
+				var img = $("<img>");
 				rpsBtn.addClass("btn btn-primary p2");
+				if(RPS[index] === "P"){
+					img.addClass("selection-image paper");
+				}
+				if(RPS[index] === "R"){
+					img.addClass("selection-image rock");
+				}
+				if(RPS[index] === "S"){
+					img.addClass("selection-image scissor");
+				}
 				rpsBtn.attr({
 					"id": curGameRef.key,
 					"data-choice": RPS[index]
 				});
-				rpsBtn.text(RPS[index]);
+				rpsBtn.html(img);
 				$("#player-two").append(rpsBtn);
 			});
 
@@ -254,14 +275,16 @@ var Game = (function(){
 			"<p>" + curGameKey.creator.cName + " picked " + curGameKey.creator.choice + "</p>"+
 			"<p>" + curGameKey.joiner.jName + " picked " + curGameKey.joiner.choice + "</p>"+
 			"<p>The Winner is " + curGameKey.winner + "</p>" +
-			"<p>Loading New Games...</p>");
+			"<p>Reloading New Games...</p>");
 			//console.log(curGameRef);
 			curGameRef.remove();
 			//console.log(curGameRef);
 			$("#create-game").show();
+
 			setTimeout(function(){
 				window.location.reload();
-			}, 5000);
+
+			}, 2500);
 		}	
 	
 		// setTimeout(function(){

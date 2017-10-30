@@ -1,6 +1,113 @@
+body{
+	background: url("../images/bg1.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  color: #ffffff;
+}
+
+.panel{
+	background-color: #a4a4a4;
+	color: #ffffff;
+
+}
+
+.panel-heading{
+	background-color: #4F5064;
+}
+
 #chat-window{
 
 	overflow:auto;
+}
+
+#game-window{
+	height: 60vh;
+	display:flex;
+	flex-direction: row;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+#join-window{
+	height: 10em;
+	border-right: 1px solid #777777;
+}
+
+#player-one, #player-two{
+	padding: 10px;
+	margin: 5px;
+	flex: 1;
+}
+
+#game-results{
+	padding: 10px;
+	margin: 5px;
+	flex: 1;
+	border-left: 1px solid #777777;
+	border-right: 1px solid #777777;
+}
+
+.selection-image{
+	height: 100px;
+	width: 100px;
+	margin: 5px;
+	border: none;
+	text-align: center;
+}
+
+.paper{
+	background: url("../images/paper1.png") center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.paper:hover{
+	background: url("../images/paper2.png") center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.p1, .p2{
+	margin: 10px;
+}
+
+.rock{
+	background: url("../images/rock1.png") center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.rock:hover{
+	background: url("../images/rock2.png") center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.scissor{
+	background: url("../images/scissor1.png") center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.scissor:hover{
+	background: url("../images/scissor2.png") center; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 li {
@@ -37,4 +144,16 @@ li > footer{
 
 .default-message footer{
 	color: #000000;
+}
+
+@media only screen and (max-width: 767px) {
+    #game-window{
+    	flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+    #game-window{
+    	flex-direction: column;
+    }
 }
