@@ -276,8 +276,7 @@ var Game = (function(){
 			$("#game-results").html(
 			"<p>" + curGameKey.creator.cName + " picked " + curGameKey.creator.choice + "</p>"+
 			"<p>" + curGameKey.joiner.jName + " picked " + curGameKey.joiner.choice + "</p>"+
-			"<p>The Winner is " + curGameKey.winner + "</p>" +
-			"<p>Reloading New Games...</p>");
+			"<p>The Winner is " + curGameKey.winner + "</p>");
 			//console.log(curGameRef);
 			curGameRef.remove();
 			//console.log(curGameRef);
