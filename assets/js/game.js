@@ -11,7 +11,7 @@ var Game = (function(){
 
 	var gameRef;
 
-	const RPS = ["R", "P", "S"];
+	const RPS = ["Barry Boulder", "Wafer-Thin Jim", "Steven Slicer"];
 
 	const STATE = {
 		GAME_OPEN_STATE: "OPEN",
@@ -164,13 +164,13 @@ var Game = (function(){
 				var rpsBtn = $("<button>");
 				var img = $("<img>");
 				rpsBtn.addClass("btn btn-primary p1");
-				if(RPS[index] === "P"){
+				if(RPS[index] === RPS[1]){
 					img.addClass("selection-image paper");
 				}
-				if(RPS[index] === "R"){
+				if(RPS[index] === RPS[0]){
 					img.addClass("selection-image rock");
 				}
-				if(RPS[index] === "S"){
+				if(RPS[index] === RPS[2]){
 					img.addClass("selection-image scissor");
 				}
 				rpsBtn.attr({
@@ -197,13 +197,13 @@ var Game = (function(){
 				var rpsBtn = $("<button>");
 				var img = $("<img>");
 				rpsBtn.addClass("btn btn-primary p2");
-				if(RPS[index] === "P"){
+				if(RPS[index] === RPS[1]){
 					img.addClass("selection-image paper");
 				}
-				if(RPS[index] === "R"){
+				if(RPS[index] === RPS[0]){
 					img.addClass("selection-image rock");
 				}
-				if(RPS[index] === "S"){
+				if(RPS[index] === RPS[2]){
 					img.addClass("selection-image scissor");
 				}
 				rpsBtn.attr({
