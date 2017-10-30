@@ -27,6 +27,16 @@ var Chat = (function(){
 		chatSendButton.prop("disabled", false);
 	}
 
+	function announceChat(){
+
+		var curUser = firebase.auth().currentUser;
+		var message = curUser.displayName + " logged in.";
+		ref.push({
+			username: "system",
+			message: message
+		});
+	}
+
 	function loadChat(){
 		ref.limitToLast(25).on("child_added", function(snapshot){
 				var curUser = firebase.auth().currentUser;
@@ -79,6 +89,8 @@ var Chat = (function(){
 			chatInput.prop("disabled", false);
 			chatSendButton.prop("disabled", false);
 			loadChat();
+			announceChat();
+
 		}
 	}
 })();

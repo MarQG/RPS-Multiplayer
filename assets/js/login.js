@@ -78,6 +78,8 @@ var Login = (function(){
 					$("#logout-button").on("click", logoutUser);
 					userLoggedIn = true;
 					Chat.onUserLogin();
+					Game.onUserLogin();
+					
 				} else {
 					if(userLoggedIn){
 						userLoggedIn = false;
