@@ -4,8 +4,15 @@
 	Hooks together all of the main components of the application 
 	together and runs it on the screen.
 */
+
+// Initializes our Firebase Connection and App
 firebase.initializeApp(Config.firebase);
 
+
+// ====== resizeChat() ======
+/*
+	Resized the chat window based on the window size and will update it on any changes.
+*/
 function resizeChat(){
 	$("#chat-window").height($(window).height() - 400);
 	$(window).resize(function(){
@@ -14,14 +21,15 @@ function resizeChat(){
 	
 }
 
-
+// ====== Main.js Start ======
 window.onload = function(){
-
+	// Update Interface for User
+	// TODO resizing game window
 	resizeChat();
-	//Start Loading Each Script here
-	//Login Script
-	
-	
+
+	// ====== Scripts ======
+	// Initialize scripts for each component.
+
 	Login.init();
 	Chat.init();
 	Game.init();

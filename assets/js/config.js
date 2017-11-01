@@ -3,6 +3,7 @@
 	Setups the configurations of the Firebase App
 */
 
+// Creates a Self Calling Config() that returns the firebase config in an object.
 Config = function(){
 	return{
 		// Initialize Firebase
